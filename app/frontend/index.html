@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Webhook Event Viewer</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .event { margin-bottom: 10px; border-bottom: 1px solid #ccc; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Recent GitHub Events</h2>
+  <div id="events"></div>
+
+  <script>
+    // JavaScript Code Started
+    async function fetchEvents() {
+      //Request GitHub Events info from Flask and wait for it
+      const res = await fetch("http://localhost:5000/webhook/UI_ReadEvents");
+      const data = await res.json();
+      //Get Events Division
+      const eventsDiv = document.getElementById("events");
+      //Clear old info
+      eventsDiv.innerHTML = "";
+      //From new data construct the display for each entry 
+      data.forEach(event => {
+        eventsDiv.innerHTML += `
+          <div class="event">
+            <strong>${event.author}</strong> ${event.action.toLowerCase()}ed 
+            ${event.from_branch ? 'from <strong>' + event.from_branch + '</strong> to <strong>' + event.to_branch + '</strong>' : 'to <strong>' + event.to_branch + '</strong>'} 
+            on ${new Date(event.timestamp).toLocaleString("en-US", {timeZone: "UTC"})}
+          </div>`;
+      });
+    }
+    // Fetch every 15 Sec
+    setInterval(fetchEvents, 15000);
+    // Fetch once in the begining
+    fetchEvents();
+  </script>
+</body>
+</html>
