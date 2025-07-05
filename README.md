@@ -1,6 +1,6 @@
-# Dev Assessment - Webhook Receiver
+# Webhook Receiver And Webpage UI
 
-Please use this repository for constructing the Flask webhook receiver.
+This repository has Flask webhook receiver in the app/webhook folder and the webpage UI in the app/frontend folder.
 
 *******************
 
@@ -41,7 +41,5 @@ python run.py
 ```bash
 POST http://127.0.0.1:5000/webhook/receiver
 ```
-
-You need to use this as the base and setup the flask app. Integrate this with MongoDB (commented at `app/extensions.py`)
 
 *******************
